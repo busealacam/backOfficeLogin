@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "503276240171",
+    "project_id": "backofficelogin",
+    "storage_bucket": "backofficelogin.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:503276240171:android:af26db5a869946bbfc196e",
+        "android_client_info": {
+          "package_name": "com.backofficelogin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "503276240171-vi1996194mj84ckuc7uuhcb34n4hn704.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.backofficelogin",
+            "certificate_hash": "d9b2e1c2ffdc2504569034ca893f922c9693680d"
+          }
+        },
+        {
+          "client_id": "503276240171-nk43p0m9lho2lr38f8uokgh92l28d4d3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5HRsm9xVEo_kzSNSRsbVcHEevznG1mBI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "503276240171-nk43p0m9lho2lr38f8uokgh92l28d4d3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
