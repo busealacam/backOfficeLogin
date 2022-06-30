@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { Text, View } from "react-native";
 import { ButtonCustom } from "../components/ButtonCustom";
 import { RegistrationForm } from "../components/RegistrationForm";
 
@@ -9,11 +9,8 @@ export const SignUpScreen = ({ navigation }: any) => {
             <RegistrationForm
                 formType="signin"
             />
-            <ButtonCustom
-                title="Sign In"
-                type="signin"
-                onPress={() => navigation.navigate("Home")}
-            />
+            <Text style={{textAlign: "center", marginTop: 10}} onPress={() => navigation.navigate("Login")}
+            >Have an account? Log in.</Text>
         </View>
     )
 }

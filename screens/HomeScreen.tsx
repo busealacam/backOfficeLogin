@@ -1,7 +1,6 @@
 import React from "react";
-import { Button, Text, View } from "react-native";
+import {Text, View } from "react-native";
 import { ButtonCustom } from "../components/ButtonCustom";
-import { RegistrationForm } from "../components/RegistrationForm";
 
 export const HomeScreen = ({ navigation }: any) => {
     return (

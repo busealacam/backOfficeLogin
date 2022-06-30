@@ -8,10 +8,11 @@ type InputForm = {
     onChangeText: (value: string) => void;
     error?: boolean;
     errorDetails?: string;
+    secureTextEntry?: boolean;
 }
 
 export const Input: React.FunctionComponent<InputForm> = ({
-    label, placeholder, value, onChangeText, error = false, errorDetails 
+    label, placeholder, value, secureTextEntry, onChangeText, error = false, errorDetails 
 }) => {
     return (
         <View style={styles.container}>
@@ -23,6 +24,7 @@ export const Input: React.FunctionComponent<InputForm> = ({
                 placeholder={placeholder}
                 value={value}
                 onChangeText={onChangeText}
+                secureTextEntry={secureTextEntry}
             />
            {!!errorDetails && (
                 <Text style={styles.styleTextError}>{errorDetails}</Text>
