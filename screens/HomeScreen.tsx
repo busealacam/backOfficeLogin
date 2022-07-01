@@ -1,20 +1,24 @@
 import React from "react";
 import {Text, View } from "react-native";
 import { ButtonCustom } from "../components/ButtonCustom";
+import auth from '@react-native-firebase/auth';
 
-export const HomeScreen = ({ navigation }: any) => {
+export const HomeScreen = ({ navigation, route }: any,) => {
+    const user = route.params
+    console.log("user",user.data)
+    function SignOutUser() {
+        auth()
+            .signOut()
+            .then (() => {navigation.navigate("Login")});
+    }
     return (
         <View>
-            <Text>Home Screen</Text>
+            <Text>Home Screen</Text> 
+            {/* <Text>Welcome {user}</Text> */}
             <ButtonCustom
-                title="Login"
-                type="login"
-                onPress={() => navigation.navigate('Login')}
-            />
-            <ButtonCustom 
-                title="Sign up"
-                type="signin"
-                onPress={() => navigation.navigate('Signup')}
+                title="Log out"
+                type={"loggedin"}
+                onPress={SignOutUser}
             />
         </View>
         

@@ -6,15 +6,18 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Input } from "./Input";
 import { ButtonCustom } from "./ButtonCustom";
 import auth from '@react-native-firebase/auth';
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { NavigationTypeParamList } from "../App";
 
 type RForm = {
     email: string,
     password: string,
-    operation: "login" | "signin"
+    operation: "login" | "signin" | "loggedin"
 }
 
 interface IFormType {
-    formType: "login" | "signin"
+    formType: "login" | "signin" | "loggedin"
 }
 
 let FormSchema = yup.object().shape({
@@ -23,45 +26,77 @@ let FormSchema = yup.object().shape({
     operation: yup.string(),
 }).required();
 
-export const RegistrationForm = ({ formType }: IFormType, { navigation }: any) => {
+
+export const RegistrationForm = ({ formType }: IFormType) => {
+    const navigation = useNavigation<NativeStackNavigationProp<NavigationTypeParamList>>()
     const { control, handleSubmit, formState: { errors } } = useForm<RForm>({
         resolver: yupResolver(FormSchema),
         defaultValues: {
             operation: formType
         }
-    })
-    const onSubmit = (data: RForm) => {
-        console.log(data)
-        {
-            formType === "signin" ?
-            auth()
-                .createUserWithEmailAndPassword(data.email, data.password)
-                .then(() => {
-                    Alert.alert('User account created & signed in!');
-                })
-                .catch(error => {
-                    if (error.code === 'auth/email-already-in-use') {
-                        console.log('That email address is already in use!');
-                    }
-
-                    if (error.code === 'auth/invalid-email') {
-                        console.log('That email address is invalid!');
-                    }
-
-                    console.error(error);
-                }) : Alert.alert("you should sign in")
-        }
-    }
+    });
 
     // Set an initializing state whilst Firebase connects
     const [initializing, setInitializing] = useState(true);
-    const [user, setUser] = useState();
-    const [password, setPassword] = useState();
+    const [user, setUser] = useState({});
 
     // Handle user state changes
-    function onAuthStateChanged(user: any) {
+    function onAuthStateChanged(user: any,) {
         setUser(user);
         if (initializing) setInitializing(false);
+    }
+
+    const createUser = (data: RForm) => {
+        auth()
+            .createUserWithEmailAndPassword(data.email, data.password)
+            .then(() => {
+                Alert.alert('User account created & signed in!');
+                // if (!auth.)
+            })
+            .catch(error => {
+                if (error.code === 'auth/email-already-in-use') {
+                    console.log('That email address is already in use!');
+                }
+
+                if (error.code === 'auth/invalid-email') {
+                    console.log('That email address is invalid!');
+                }
+
+                console.error(error);
+            })
+    }
+
+    const loginUser = (data: RForm) => {
+        auth()
+            .signInWithEmailAndPassword(data.email, data.password)
+            .then(() => {
+                Alert.alert('Logged in');
+                navigation.navigate("Home", {data: {data}})
+                // if (!auth.)
+            })
+            .catch(error => {
+                if (error.code === 'auth/email-already-in-use') {
+                    console.log('That email address is already in use!');
+                }
+
+                if (error.code === 'auth/invalid-email') {
+                    console.log('That email address is invalid!');
+                }
+
+                console.error(error);
+            })
+    }
+
+
+    const onSubmit = (data: RForm) => {
+        console.log(data)
+
+        if (formType === "signin") {
+            createUser(data)
+        }
+        if (formType === "login") {
+            loginUser(data)
+        }
     }
 
     useEffect(() => {
@@ -69,8 +104,8 @@ export const RegistrationForm = ({ formType }: IFormType, { navigation }: any) =
         return subscriber; // unsubscribe on unmount
     }, []);
 
-    if (initializing) return null;
 
+    if (initializing) return null;
     return (
         <ScrollView>
             <View>

@@ -1,5 +1,5 @@
 import React from "react";
-import { KeyboardTypeOptions, StyleSheet, Text, TextInput, View } from "react-native";
+import { StyleSheet, Text, TextInput, View } from "react-native";
 
 type InputForm = {
     label?: string;
@@ -12,7 +12,7 @@ type InputForm = {
 }
 
 export const Input: React.FunctionComponent<InputForm> = ({
-    label, placeholder, value, secureTextEntry, onChangeText, error = false, errorDetails 
+    label, placeholder, value, secureTextEntry, onChangeText, error = false, errorDetails
 }) => {
     return (
         <View style={styles.container}>
@@ -20,13 +20,13 @@ export const Input: React.FunctionComponent<InputForm> = ({
                 <Text style={styles.styleLabel}>{label}</Text>
             )}
             <TextInput
-                style={[styles.styleInput , error ? styles.styleError : styles.styleNormal]}
+                style={[styles.styleInput, error ? styles.styleError : styles.styleNormal]}
                 placeholder={placeholder}
                 value={value}
                 onChangeText={onChangeText}
                 secureTextEntry={secureTextEntry}
             />
-           {!!errorDetails && (
+            {!!errorDetails && (
                 <Text style={styles.styleTextError}>{errorDetails}</Text>
             )}
         </View>

@@ -1,6 +1,5 @@
 import React from "react";
-import { Button, Text, View } from "react-native";
-import { ButtonCustom } from "../components/ButtonCustom";
+import { Text, View } from "react-native";
 import { RegistrationForm } from "../components/RegistrationForm";
 
 export const LoginScreen = ({ navigation }: any) => {
@@ -9,8 +8,8 @@ export const LoginScreen = ({ navigation }: any) => {
             <RegistrationForm
                 formType="login"
             />
-            <Text style={{textAlign: "center", marginTop: 10}} onPress={() => navigation.navigate("Signup")}
-            >Don't have an account?</Text>
+            <Text style={{ textAlign: "center", marginTop: 10 }} onPress={() => navigation.navigate("Signup")}
+            >Don't have an account ? Sign In</Text>
         </View>
     )
 }
