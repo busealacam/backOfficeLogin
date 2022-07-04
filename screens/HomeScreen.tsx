@@ -1,26 +1,46 @@
 import React from "react";
-import {Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { ButtonCustom } from "../components/ButtonCustom";
 import auth from '@react-native-firebase/auth';
 
-export const HomeScreen = ({ navigation, route }: any,) => {
-    const user = route.params
-    console.log("user",user.data)
+export const HomeScreen = ({ navigation, route }: any): JSX.Element => {
     function SignOutUser() {
         auth()
             .signOut()
-            .then (() => {navigation.navigate("Login")});
+            .then(() => { navigation.navigate("Login") });
     }
     return (
-        <View>
-            <Text>Home Screen</Text> 
-            {/* <Text>Welcome {user}</Text> */}
-            <ButtonCustom
-                title="Log out"
-                type={"loggedin"}
-                onPress={SignOutUser}
-            />
+        <View style={styles.container}>
+            <View style={styles.homeNav}>
+                <ButtonCustom
+                    title="Dashboard"
+                    type={"loggedin"}
+                    onPress={() => navigation.navigate("Admin")}
+                />
+                <ButtonCustom
+                    title="Log out"
+                    type={"loggedin"}
+                    onPress={SignOutUser}
+                />
+            </View>
+            <Text style={styles.homeText} >Welcome {route.params.email}</Text>
         </View>
-        
+
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    homeText: {
+        textAlign: "center",
+        fontSize: 20,
+        marginTop: 10,
+        marginBottom: 10,
+    },
+    homeNav: {
+        flexDirection: "row",
+        justifyContent: "space-around"
+    }
+})

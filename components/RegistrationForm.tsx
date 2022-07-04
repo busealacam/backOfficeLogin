@@ -71,8 +71,7 @@ export const RegistrationForm = ({ formType }: IFormType) => {
             .signInWithEmailAndPassword(data.email, data.password)
             .then(() => {
                 Alert.alert('Logged in');
-                navigation.navigate("Home", {data: {data}})
-                // if (!auth.)
+                navigation.navigate("Home", { ...data })
             })
             .catch(error => {
                 if (error.code === 'auth/email-already-in-use') {
@@ -89,7 +88,6 @@ export const RegistrationForm = ({ formType }: IFormType) => {
 
 
     const onSubmit = (data: RForm) => {
-        console.log(data)
 
         if (formType === "signin") {
             createUser(data)
