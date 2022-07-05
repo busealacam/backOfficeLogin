@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import * as yup from 'yup';
 import { Controller, useForm } from "react-hook-form";
-import { ScrollView, Switch, Text, View } from "react-native";
+import { Alert, ScrollView, View } from "react-native";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Input } from "./Input";
+import firestore from '@react-native-firebase/firestore';
+import { ButtonCustom } from "./ButtonCustom";
 
 type DashForm = {
     name: string,
@@ -25,6 +27,42 @@ export const DashBoardForm = () => {
     });
     const [isEnabled, setIsEnabled] = useState(false);
     const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+
+    // const usersCollection = firestore()
+    //     .collection('Users')
+    //     .get()
+    //     .then(collectionSnapshot => {
+    //         console.log('Total users: ', collectionSnapshot.size); collectionSnapshot
+    //             .forEach(documentSnapshot => {
+    //                 console.log('User ID: ', documentSnapshot.id,
+    //                     documentSnapshot.data().email);
+    //             });
+    //     });
+    // const userDocument = firestore()
+    //     .collection('Users')
+    //     .doc('ABC')
+    //     .then(docSnapshot => {
+    //         if (docSnapshot.exists) {
+    //             const userData = docSnapshot.data()
+    //             console.log(userData)
+    //         }
+    //     });
+    
+    const addNewUser = (data: DashForm) => {
+        firestore()
+            .collection('Users')
+            .add({
+                name: data.name,
+                email: data.email,
+                password: data.password
+            })
+            .then(() => {
+                Alert.alert('User added!');
+            });
+    }
+    const validation = (data: DashForm) => {
+        addNewUser(data)
+    }
     return (
         <ScrollView>
             <View>
@@ -78,9 +116,13 @@ export const DashBoardForm = () => {
                             error={!!error}
                             errorDetails={error?.message}
                             value={value}
-                            secureTextEntry={false}
+                            secureTextEntry={true}
                         />
                     )}
+                />
+                <ButtonCustom
+                    onPress={handleSubmit(validation)}
+                    title="Add User"
                 />
                 {/* <View>
                     <Text>Switch</Text>

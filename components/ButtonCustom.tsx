@@ -5,7 +5,7 @@ import { Pressable, StyleSheet, Text } from "react-native";
 type IButton = {
     title: string;
     onPress: () => void
-    type: "login" | "signin" | "loggedin"
+    type?: "login" | "signin" | "loggedin"
 }
 
 export const ButtonCustom = ({ title, onPress, type }: IButton) => {
