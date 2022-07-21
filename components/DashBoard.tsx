@@ -1,14 +1,14 @@
 import React from "react";
-import { FlatList, Text, View } from "react-native";
+import { ScrollView, View } from "react-native";
+import { DashBoardAddUserForm } from "./DashBoardAddUserForm";
+import { DashBoardListUser } from "./DashBoardListUser";
 
-import { DashBoardForm } from "./DashBoardForm";
-
-export const DashBoard = ({ navigation }: any) => {
-
-    
+export const DashBoard = () => {
     return (
-        <View>
-            <DashBoardForm />
+        <View style={{flex:1}}>
+            <ScrollView><DashBoardListUser/></ScrollView>
+            <DashBoardAddUserForm />
+
         </View>
     )
 }

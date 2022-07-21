@@ -1,14 +1,11 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { ButtonCustom } from "../components/ButtonCustom";
-import auth from '@react-native-firebase/auth';
+import { SignOutUser } from "../src/firebase/Auth";
+
 
 export const HomeScreen = ({ navigation, route }: any): JSX.Element => {
-    function SignOutUser() {
-        auth()
-            .signOut()
-            .then(() => { navigation.navigate("Login") });
-    }
+    
     return (
         <View style={styles.container}>
             <View style={styles.homeNav}>
@@ -20,7 +17,7 @@ export const HomeScreen = ({ navigation, route }: any): JSX.Element => {
                 <ButtonCustom
                     title="Log out"
                     type={"loggedin"}
-                    onPress={SignOutUser}
+                    onPress={() => SignOutUser(navigation)}
                 />
             </View>
             <Text style={styles.homeText} >Welcome {route.params.email}</Text>
