@@ -6,6 +6,7 @@ export type NavigationTypeParamList = {
     Home: undefined;
     Admin: undefined;
     Edit: undefined;
+    Gallery: undefined;
 }
 
 /**** type of operation form registration form ****/

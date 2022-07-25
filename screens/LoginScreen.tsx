@@ -13,7 +13,7 @@ export const LoginScreen = ({ navigation }: any) => {
             />
             <Button
                 title="finger print"
-                onPress={Biometric}
+                onPress={() => Biometric}
             />
             <Text style={{ textAlign: "center", marginTop: 10 }} onPress={() => navigation.navigate("Signup")}
             >Don't have an account ? Sign In</Text>

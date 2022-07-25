@@ -1,54 +1,92 @@
 import React, { useState } from 'react';
-import ReactNativeBiometrics from 'react-native-biometrics'
-import { Alert} from 'react-native';
+import ReactNativeBiometrics, { BiometryTypes } from 'react-native-biometrics'
+import { Alert, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import auth from '@react-native-firebase/auth';
 
 /**** Biometric Auth ****/
-const rnBiometrics = new ReactNativeBiometrics({ allowDeviceCredentials: true })
-// const [mmkvEmail, setMmkvEmail] = useState<string>()
-// const [mmkvPassword, setMmkvPassword] = useState<string>()
-export const Biometric = ({ navigation }: any) => {
-    rnBiometrics
-        .biometricKeysExist()
-        .then(resultObject => {
-            const { keysExist } = resultObject;
+type FingerPrintProps = {
+    handleSuccess: () => void
+}
 
-            if (keysExist) {
-                rnBiometrics
-                    .createSignature({
-                        promptMessage: 'Sign in',
-                        payload: "payload",
-                    })
-                    .then(resultObject => {
-                        const { success, signature } = resultObject;
+export const Biometric: React.FunctionComponent<FingerPrintProps> = ({ navigation }: any) => {
+    const rnBiometrics = new ReactNativeBiometrics({ allowDeviceCredentials: true })
 
-                        if (success) {
-                            console.log(signature);
-                            auth()
-                                .signInWithEmailAndPassword("toto@toto.com", "toto1234")
-                                .then(() => {
-                                    // setMmkvEmail("toto@toto.com");
-                                    // setMmkvPassword("toto1234");
-                                    navigation.navigate("Home")
-                                    Alert.alert('Logged in');
-                                })
-                            // loginUser(data, navigation)
-                            // verifySignatureWithServer(signature, payload);
+    rnBiometrics.isSensorAvailable()
+        .then((resultObject) => {
+            const { available, biometryType } = resultObject
 
-                        }
-                    })
-                    .catch(err => console.log(err));
+            if (available && biometryType === BiometryTypes.TouchID) {
+                console.log("TouchID is supported")
+            } else if (available && biometryType === BiometryTypes.FaceID) {
+                console.log("FaceID is supported")
+            } else if (available && biometryType === BiometryTypes.Biometrics) {
+                console.log("Biometrics is supported")
             } else {
-                rnBiometrics
-                    .createKeys()
-                    .then(resultObject => {
-                        const { publicKey } = resultObject;
-                        console.log(publicKey);
-                        // sendPublicKeyToServer(publicKey);
-                    })
-                    .catch(err => console.log(err));
+                console.log("Biometrics not supported")
             }
         })
-        .catch(err => console.log(err));
 
-};
+    let epochTimeSeconds = Math.round((new Date()).getTime() / 1000).toString()
+    let payload = epochTimeSeconds + "some message"
+
+    const fingerPrintLogin = () => {
+        rnBiometrics
+            .biometricKeysExist()
+            .then(resultObject => {
+                const { keysExist } = resultObject
+
+                if (keysExist) {
+                    rnBiometrics
+                        .createSignature({
+                            promptMessage: "Sign in",
+                            payload: payload // A quoi ca sert ?
+                        })
+                        .then(resultObject => {
+                            const { success, signature } = resultObject
+
+                            if (success) {
+                                console.log(signature)
+                                handleSuccess()
+
+                                // verifySignatureWithServer(signature, payload);
+                            }
+                        })
+                        .catch(err => console.log(err))
+                } else {
+                    rnBiometrics
+                        .createKeys()
+                        .then(resultObject => {
+                            const { publicKey } = resultObject
+                            console.log(publicKey)
+
+                            // sendPublicKeyToServer(publicKey)
+                        })
+                        .catch(err => console.log(err))
+                }
+            })
+            .catch(err => console.log(err))
+    }
+
+
+    return (
+        <View style={styles.fingerPrintBtn}>
+            <TouchableOpacity onPress={() => fingerPrintLogin()}>
+                <Text>FingerPrint</Text>
+            </TouchableOpacity>
+        </View>
+    )
+}
+
+const styles = StyleSheet.create({
+    fingerPrintBtn: {
+        backgroundColor: "white",
+        marginEnd: 5,
+        marginTop: 20,
+        height: 50,
+        padding: 10,
+        borderRadius: 5,
+        borderWidth: 2,
+        borderColor: "#2c3e50"
+    }
+
+})

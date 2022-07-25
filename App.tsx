@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import { DashBoard } from './components/DashBoard';
 import { DashBoardEditScreen } from './screens/DashboardEditScreen';
+import { GalleryScreen } from './screens/GalleryScreen';
 import { HomeScreen } from './screens/HomeScreen';
 import { LoginScreen } from './screens/LoginScreen';
 import { SignUpScreen } from './screens/SignUpScreen';
@@ -19,6 +20,7 @@ export default function App() {
         <Stack.Screen name='Home' component={HomeScreen} />
         <Stack.Screen name='Admin' component={DashBoard} />
         <Stack.Screen name='Edit' component={DashBoardEditScreen} />
+        <Stack.Screen name='Gallery' component={GalleryScreen} />
       </Stack.Navigator>
     </NavigationContainer>
 
